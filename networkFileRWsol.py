@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 #networkFileRWsol.py
-#Pamela Brauda
+#modified by Jacob Clendening
+#for assignment Git11
 #Thursday, March 3, 2022
 #Thursday, March 10, 2022 updated
 #Update routers and switches;
@@ -39,7 +40,7 @@ def getValidDevice(routers, switches):
         elif device in switches.keys():
             return device
         elif device == 'x':
-            return device  
+            return device
         else:
             print("That device is not in the network inventory.")
 
@@ -61,7 +62,7 @@ def getValidIP(invalidIPCount, invalidIPAddresses):
             #validIP = True
                 return ipAddress, invalidIPCount
                 #don't need to return invalidIPAddresses list - it's an object
-        
+
 def main():
 
     ##---->>>> open files here
@@ -70,7 +71,7 @@ def main():
 
     with open(EQUIP_R) as inFile:
         routers = json.load(inFile)
-    
+
     ##---->>>> read the switches and addresses into the switches dictionary
     with open(EQUIP_S) as inFile:
         switches = json.load(inFile)
@@ -91,7 +92,7 @@ def main():
 
     print("Network Equipment Inventory\n")
     print("\tequipment name\tIP address")
-    for router, ipa in routers.items(): 
+    for router, ipa in routers.items():
         print("\t" + router + "\t\t" + ipa)
     for switch, ipa in switches.items():
         print("\t" + switch + "\t\t" + ipa)
@@ -100,21 +101,21 @@ def main():
 
         #function call to get valid device
         device = getValidDevice(routers, switches)
-        
+
         if device == 'x':
             quitNow = True
             break
-        
+
         #function call to get valid IP address
         #python lets you return two or more values at one time
         ipAddress, invalidIPCount = getValidIP(invalidIPCount, invalidIPAddresses)
-  
+
         #update device
         if 'r' in device:
             #modify the value associated with the key
-            routers[device] = ipAddress 
+            routers[device] = ipAddress
             #print("routers", routers)
-            
+
         else:
             switches[device] = ipAddress
 
@@ -133,7 +134,7 @@ def main():
     ##---->>>> write the updated equipment dictionary to a file
     with open(UPDATED_EQUIP, 'w') as outFile:
         json.dump(updated, outFile)
-    
+
     print("Updated equipment written to file 'updated.txt'")
     print()
     print("\nNumber of invalid addresses attempted:", invalidIPCount)
@@ -147,7 +148,3 @@ def main():
 #top-level scope check
 if __name__ == "__main__":
     main()
-
-
-
-
